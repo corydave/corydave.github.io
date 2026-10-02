@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickQR - URL to QR Code Generator</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- QRCode.js Library CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Ensure clean canvas scaling */
+    #qrcode canvas, #qrcode img {
+      margin: 0 auto;
+      border-radius: 0.5rem;
+      max-width: 100%;
+      height: auto !important;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+  <!-- Top Notification Toast Notification Container -->
+  <div id="toast" class="fixed top-5 right-5 z-50 transform translate-y-[-150%] opacity-0 transition-all duration-300 pointer-events-none flex items-center space-x-2 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl text-sm font-medium">
+    <span id="toast-icon">✓</span>
+    <span id="toast-message">Copied to clipboard!</span>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-indigo-200">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+          </svg>
+        </div>
+        <span class="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-indigo-900 to-indigo-600">QuickQR</span>
+      </div>
+      <span class="text-xs font-semibold px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-full border border-indigo-100">Free & Instant</span>
+    </div>
+  </header>
+
+  <main class="max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 flex-1">
+    <div class="text-center max-w-2xl mx-auto mb-8">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Convert Any URL to a QR Code</h1>
+      <p class="text-slate-500 mt-2 text-sm sm:text-base">Generate, customize colors, download high-definition images, or share seamlessly.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- Input & Configuration Card (Left Column) -->
+      <div class="lg:col-span-7 bg-white p-6 sm:p-7 rounded-2xl shadow-sm border border-slate-200/80 space-y-6">
+        
+        <!-- Form: URL Input -->
+        <div>
+          <label for="url-input" class="block text-sm font-semibold text-slate-700 mb-2">Website URL or Link</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+              </svg>
+            </div>
+            <input 
+              type="text" 
+              id="url-input" 
+              placeholder="https://example.com" 
+              value="https://google.com"
+              class="w-full pl-10 pr-24 py-3.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-slate-900 text-sm transition-all"
+            >
+            <button 
+              type="button" 
+              id="paste-btn" 
+              class="absolute inset-y-1.5 right-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-colors flex items-center space-x-1"
+            >
+              <span>Paste</span>
+            </button>
+          </div>
+          <p id="url-error" class="hidden text-xs text-rose-500 mt-1.5 font-medium"></p>
+        </div>
+
+        <!-- Quick Sample Link Chips -->
+        <div>
+          <span class="text-xs font-medium text-slate-400 block mb-2">Try a sample:</span>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" class="preset-pill px-3 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-lg text-xs font-medium transition-all" data-url="https://wikipedia.org">Wikipedia</button>
+            <button type="button" class="preset-pill px-3 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-lg text-xs font-medium transition-all" data-url="https://github.com">GitHub</button>
+            <button type="button" class="preset-pill px-3 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-lg text-xs font-medium transition-all" data-url="https://youtube.com">YouTube</button>
+            <button type="button" class="preset-pill px-3 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-lg text-xs font-medium transition-all" data-url="https://maps.google.com">Google Maps</button>
+          </div>
+        </div>
+
+        <!-- Collapsible Customization Accordion -->
+        <div class="border-t border-slate-100 pt-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-semibold text-slate-800">Customization & Style</h3>
+            <span class="text-xs text-slate-400">Optional</span>
+          </div>
+
+          <!-- Center Initials Badge Control Card -->
+          <div class="mb-4 bg-indigo-50/70 border border-indigo-200/80 rounded-xl p-3.5 transition-all">
+            <div class="flex items-center justify-between">
+              <label for="initials-enable" class="flex items-center space-x-2.5 cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  id="initials-enable" 
+                  checked 
+                  class="w-4 h-4 text-indigo-600 rounded border-indigo-300 focus:ring-indigo-500 focus:ring-2 cursor-pointer"
+                >
+                <div class="flex items-center space-x-1.5">
+                  <span class="w-5 h-5 rounded-md bg-indigo-600 text-white text-[11px] font-bold flex items-center justify-center">JD</span>
+                  <span class="text-xs font-semibold text-slate-800">Center Initials Badge</span>
+                </div>
+              </label>
+              <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700">Active</span>
+            </div>
+
+            <!-- Initials Options Grid -->
+            <div id="initials-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3 pt-3 border-t border-indigo-200/60">
+              <!-- Initials Input -->
+              <div>
+                <label for="initials-text" class="block text-[11px] font-medium text-slate-600 mb-1">Your Initials (1–3 chars)</label>
+                <input 
+                  type="text" 
+                  id="initials-text" 
+                  maxlength="3" 
+                  value="JD" 
+                  placeholder="e.g. JD" 
+                  class="w-full text-xs font-bold uppercase tracking-wider bg-white border border-indigo-200 rounded-lg p-2 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                >
+              </div>
+
+              <!-- Badge Shape -->
+              <div>
+                <label for="badge-shape" class="block text-[11px] font-medium text-slate-600 mb-1">Badge Shape</label>
+                <select id="badge-shape" class="w-full text-xs font-medium bg-white border border-indigo-200 rounded-lg p-2 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+                  <option value="circle" selected>Circle Badge</option>
+                  <option value="squircle">Rounded Square</option>
+                </select>
+              </div>
+
+              <!-- Badge Colors -->
+              <div>
+                <label for="badge-bg-color" class="block text-[11px] font-medium text-slate-600 mb-1">Badge Background</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="badge-bg-color" value="#4f46e5" class="w-7 h-7 rounded border-0 cursor-pointer p-0 bg-transparent">
+                  <span id="badge-bg-hex" class="text-xs font-mono font-medium text-slate-700">#4f46e5</span>
+                </div>
+              </div>
+
+              <div>
+                <label for="badge-txt-color" class="block text-[11px] font-medium text-slate-600 mb-1">Badge Text Color</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="badge-txt-color" value="#ffffff" class="w-7 h-7 rounded border-0 cursor-pointer p-0 bg-transparent">
+                  <span id="badge-txt-hex" class="text-xs font-mono font-medium text-slate-700">#ffffff</span>
+                </div>
+              </div>
+
+              <!-- Badge Scale -->
+              <div class="sm:col-span-2">
+                <label for="badge-scale" class="block text-[11px] font-medium text-slate-600 mb-1">Badge Size</label>
+                <select id="badge-scale" class="w-full text-xs font-medium bg-white border border-indigo-200 rounded-lg p-2 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+                  <option value="0.22">Compact (22%)</option>
+                  <option value="0.26" selected>Balanced (26%)</option>
+                  <option value="0.30">Prominent (30%)</option>
+                </select>
+              </div>
+            </div>
+            <p class="text-[11px] text-indigo-700/80 mt-2 font-medium flex items-center space-x-1">
+              <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span>Auto-applies High Error Correction (30%) for reliable scanning.</span>
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- QR Code Color -->
+            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/60">
+              <label for="fg-color" class="block text-xs font-medium text-slate-600 mb-1.5">Pattern Color</label>
+              <div class="flex items-center space-x-2">
+                <input type="color" id="fg-color" value="#0f172a" class="w-8 h-8 rounded-lg border-0 cursor-pointer p-0 bg-transparent">
+                <span id="fg-color-hex" class="text-xs font-mono font-medium text-slate-700">#0f172a</span>
+              </div>
+            </div>
+
+            <!-- Background Color -->
+            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/60">
+              <label for="bg-color" class="block text-xs font-medium text-slate-600 mb-1.5">Background Color</label>
+              <div class="flex items-center space-x-2">
+                <input type="color" id="bg-color" value="#ffffff" class="w-8 h-8 rounded-lg border-0 cursor-pointer p-0 bg-transparent">
+                <span id="bg-color-hex" class="text-xs font-mono font-medium text-slate-700">#ffffff</span>
+              </div>
+            </div>
+
+            <!-- Size Selection -->
+            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/60">
+              <label for="qr-size" class="block text-xs font-medium text-slate-600 mb-1.5">Resolution Size</label>
+              <select id="qr-size" class="w-full text-xs font-medium bg-white border border-slate-200 rounded-lg p-2 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+                <option value="200">Standard (200 x 200)</option>
+                <option value="280" selected>Medium (280 x 280)</option>
+                <option value="400">Large (400 x 400)</option>
+                <option value="600">High Def (600 x 600)</option>
+              </select>
+            </div>
+
+            <!-- Error Correction Level -->
+            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/60">
+              <label for="qr-ecc" class="block text-xs font-medium text-slate-600 mb-1.5">Error Correction</label>
+              <select id="qr-ecc" class="w-full text-xs font-medium bg-white border border-slate-200 rounded-lg p-2 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+                <option value="L">Low (7% recovery)</option>
+                <option value="M">Medium (15% recovery)</option>
+                <option value="Q">Quartile (25% recovery)</option>
+                <option value="H" selected>High (30% recovery)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <button 
+          id="generate-btn" 
+          class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-semibold rounded-xl shadow-lg shadow-indigo-200 transition-all flex items-center justify-center space-x-2"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          <span>Generate QR Code</span>
+        </button>
+      </div>
+
+      <!-- QR Code Output & Action Card (Right Column) -->
+      <div class="lg:col-span-5 flex flex-col space-y-4">
+        <div class="bg-white p-6 sm:p-7 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col items-center text-center">
+          
+          <div class="flex items-center justify-between w-full mb-4">
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">QR Code Preview</span>
+            <div id="live-indicator" class="flex items-center space-x-1.5 text-xs text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded-full">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Ready</span>
+            </div>
+          </div>
+
+          <!-- QR Canvas Mount Frame -->
+          <div class="p-4 bg-slate-100 rounded-2xl border border-slate-200/80 flex items-center justify-center max-w-full overflow-hidden shadow-inner min-h-[280px]">
+            <div id="qrcode" class="flex items-center justify-center transition-all duration-200"></div>
+          </div>
+
+          <!-- Target URL Summary Link -->
+          <div class="mt-4 w-full text-center">
+            <a 
+              id="preview-link" 
+              href="https://google.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="inline-flex items-center space-x-1 text-xs text-indigo-600 hover:text-indigo-800 font-medium truncate max-w-full hover:underline"
+            >
+              <span id="preview-link-text">https://google.com</span>
+              <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Download and Copy Actions -->
+          <div class="grid grid-cols-2 gap-3 w-full mt-6">
+            <button 
+              type="button" 
+              id="download-btn" 
+              class="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl shadow-md transition-all flex items-center justify-center space-x-1.5"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+              </svg>
+              <span>Download PNG</span>
+            </button>
+
+            <button 
+              type="button" 
+              id="copy-link-btn" 
+              class="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-all flex items-center justify-center space-x-1.5 border border-slate-200"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+              </svg>
+              <span>Copy Link</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent History Section -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold text-slate-700">Recent QR Codes</span>
+            <button id="clear-history-btn" class="text-[11px] text-slate-400 hover:text-rose-500 font-medium transition-colors">Clear</button>
+          </div>
+          <div id="history-container" class="space-y-2 max-h-40 overflow-y-auto custom-scrollbar text-xs">
+            <p class="text-slate-400 italic py-2">No previous QR codes yet.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white py-4 mt-8">
+    <div class="max-w-5xl mx-auto px-4 text-center text-xs text-slate-400">
+      Built with client-side QR generation &bull; Fast, private, and secure.
+    </div>
+  </footer>
+
+  <script>
+    // State references and instances
+    let qrInstance = null;
+    const historyList = [];
+
+    // DOM Elements
+    const urlInput = document.getElementById('url-input');
+    const urlError = document.getElementById('url-error');
+    const pasteBtn = document.getElementById('paste-btn');
+    const generateBtn = document.getElementById('generate-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const copyLinkBtn = document.getElementById('copy-link-btn');
+    const fgColorInput = document.getElementById('fg-color');
+    const fgColorHex = document.getElementById('fg-color-hex');
+    const bgColorInput = document.getElementById('bg-color');
+    const bgColorHex = document.getElementById('bg-color-hex');
+    const qrSizeSelect = document.getElementById('qr-size');
+    const qrEccSelect = document.getElementById('qr-ecc');
+    const qrContainer = document.getElementById('qrcode');
+    const previewLink = document.getElementById('preview-link');
+    const previewLinkText = document.getElementById('preview-link-text');
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    const historyContainer = document.getElementById('history-container');
+    const clearHistoryBtn = document.getElementById('clear-history-btn');
+
+    // Initials Badge elements
+    const initialsEnable = document.getElementById('initials-enable');
+    const initialsOptions = document.getElementById('initials-options');
+    const initialsTextInput = document.getElementById('initials-text');
+    const badgeShapeSelect = document.getElementById('badge-shape');
+    const badgeBgColorInput = document.getElementById('badge-bg-color');
+    const badgeBgHex = document.getElementById('badge-bg-hex');
+    const badgeTxtColorInput = document.getElementById('badge-txt-color');
+    const badgeTxtHex = document.getElementById('badge-txt-hex');
+    const badgeScaleSelect = document.getElementById('badge-scale');
+
+    /**
+     * Show animated feedback toast
+     */
+    function showToast(message, isError = false) {
+      toastMsg.textContent = message;
+      toast.className = `fixed top-5 right-5 z-50 transform transition-all duration-300 pointer-events-none flex items-center space-x-2 px-4 py-3 rounded-xl shadow-2xl text-sm font-medium ${
+        isError ? 'bg-rose-600 text-white' : 'bg-slate-900 text-white'
+      }`;
+      toast.style.transform = 'translateY(0)';
+      toast.style.opacity = '1';
+
+      setTimeout(() => {
+        toast.style.transform = 'translateY(-150%)';
+        toast.style.opacity = '0';
+      }, 2500);
+    }
+
+    /**
+     * URL Normalizer: Prepends https:// if missing
+     */
+    function sanitizeUrl(rawUrl) {
+      let trimmed = rawUrl.trim();
+      if (!trimmed) return '';
+      // If it doesn't have protocol prefix, prepend https://
+      if (!/^https?:\/\//i.test(trimmed) && !/^mailto:/i.test(trimmed) && !/^tel:/i.test(trimmed)) {
+        trimmed = 'https://' + trimmed;
+      }
+      return trimmed;
+    }
+
+    /**
+     * Helper to draw a rounded rectangle on Canvas
+     */
+    function drawRoundedRect(ctx, x, y, w, h, r) {
+      if (ctx.roundRect) {
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+      }
+    }
+
+    /**
+     * Draws the customized Initials monogram badge in the center of the QR canvas
+     */
+    function overlayInitialsBadge(canvas) {
+      if (!initialsEnable.checked || !canvas) return;
+
+      const rawInitials = (initialsTextInput.value || '').trim();
+      const initials = (rawInitials || 'QR').toUpperCase().slice(0, 3);
+
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const cx = w / 2;
+      const cy = w / 2;
+
+      const scale = parseFloat(badgeScaleSelect.value) || 0.26;
+      const badgeSize = w * scale;
+      const isCircle = badgeShapeSelect.value === 'circle';
+
+      const badgeBg = badgeBgColorInput.value || '#4f46e5';
+      const badgeTxt = badgeTxtColorInput.value || '#ffffff';
+
+      ctx.save();
+
+      // 1. Center Badge Drop Shadow for depth & contrast separation
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+      ctx.shadowBlur = Math.max(4, w * 0.018);
+      ctx.shadowOffsetY = Math.max(1, w * 0.005);
+      ctx.fillStyle = badgeBg;
+
+      if (isCircle) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, badgeSize / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        const radius = badgeSize * 0.25;
+        const x = cx - badgeSize / 2;
+        const y = cy - badgeSize / 2;
+        drawRoundedRect(ctx, x, y, badgeSize, badgeSize, radius);
+        ctx.fill();
+      }
+
+      // Outer protective crisp border
+      ctx.shadowColor = 'transparent';
+      ctx.lineWidth = Math.max(2, w * 0.009);
+      ctx.strokeStyle = '#ffffff';
+      ctx.stroke();
+
+      // 2. Render Initials Monogram Text
+      ctx.fillStyle = badgeTxt;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // Dynamically calculate font size based on character count
+      const charCount = initials.length;
+      let fontSizeFactor = 0.52;
+      if (charCount === 1) fontSizeFactor = 0.58;
+      if (charCount === 3) fontSizeFactor = 0.38;
+
+      const fontSize = Math.round(badgeSize * fontSizeFactor);
+      ctx.font = `700 ${fontSize}px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+
+      // Draw centered text
+      ctx.fillText(initials, cx, cy + Math.round(fontSize * 0.04));
+
+      ctx.restore();
+    }
+
+    /**
+     * Generate or re-generate the QR Code
+     */
+    function generateQRCode() {
+      const originalValue = urlInput.value.trim();
+      if (!originalValue) {
+        urlError.textContent = 'Please enter a URL or web address.';
+        urlError.classList.remove('hidden');
+        urlInput.focus();
+        return;
+      }
+      urlError.classList.add('hidden');
+
+      const formattedUrl = sanitizeUrl(originalValue);
+      urlInput.value = formattedUrl;
+
+      // Update Preview link
+      previewLink.href = formattedUrl;
+      previewLinkText.textContent = formattedUrl;
+
+      // Map ECC string to QRCode library constant
+      const eccMap = {
+        'L': QRCode.CorrectLevel.L,
+        'M': QRCode.CorrectLevel.M,
+        'Q': QRCode.CorrectLevel.Q,
+        'H': QRCode.CorrectLevel.H,
+      };
+
+      // When initials badge is enabled, force High ECC for error tolerance
+      let eccLevel = qrEccSelect.value;
+      if (initialsEnable.checked) {
+        eccLevel = 'H';
+        qrEccSelect.value = 'H';
+      }
+
+      const size = parseInt(qrSizeSelect.value, 10) || 280;
+      const fgColor = fgColorInput.value;
+      const bgColor = bgColorInput.value;
+      const correctLevel = eccMap[eccLevel] || QRCode.CorrectLevel.H;
+
+      // Clear existing QR content
+      qrContainer.innerHTML = '';
+
+      try {
+        // Create new QR Code
+        qrInstance = new QRCode(qrContainer, {
+          text: formattedUrl,
+          width: size,
+          height: size,
+          colorDark: fgColor,
+          colorLight: bgColor,
+          correctLevel: correctLevel
+        });
+
+        // Overlay the initials badge on canvas once generated
+        const canvas = qrContainer.querySelector('canvas');
+        if (canvas) {
+          overlayInitialsBadge(canvas);
+          // Sync any secondary img tag created by the library
+          const img = qrContainer.querySelector('img');
+          if (img) {
+            img.src = canvas.toDataURL('image/png');
+          }
+        }
+
+        // Record into history
+        recordHistory(formattedUrl);
+      } catch (err) {
+        console.error(err);
+        showToast('Error generating QR Code', true);
+      }
+    }
+
+    /**
+     * Adds item to history and updates DOM
+     */
+    function recordHistory(url) {
+      if (historyList.includes(url)) {
+        // Move to front
+        const idx = historyList.indexOf(url);
+        historyList.splice(idx, 1);
+      }
+      historyList.unshift(url);
+      if (historyList.length > 5) {
+        historyList.pop();
+      }
+      renderHistory();
+    }
+
+    function renderHistory() {
+      if (historyList.length === 0) {
+        historyContainer.innerHTML = '<p class="text-slate-400 italic py-2">No previous QR codes yet.</p>';
+        return;
+      }
+
+      historyContainer.innerHTML = '';
+      historyList.forEach((url) => {
+        const item = document.createElement('div');
+        item.className = 'flex items-center justify-between p-2 rounded-lg bg-slate-50 hover:bg-indigo-50/50 border border-slate-200/50 transition-colors group';
+        
+        const linkSpan = document.createElement('span');
+        linkSpan.className = 'truncate text-slate-700 font-medium group-hover:text-indigo-600 max-w-[200px] cursor-pointer';
+        linkSpan.textContent = url;
+        linkSpan.title = url;
+        linkSpan.onclick = () => {
+          urlInput.value = url;
+          generateQRCode();
+        };
+
+        const useBtn = document.createElement('button');
+        useBtn.type = 'button';
+        useBtn.className = 'text-[11px] text-indigo-600 hover:text-indigo-800 font-semibold px-2 py-0.5 rounded bg-white border border-slate-200 shadow-xs';
+        useBtn.textContent = 'Load';
+        useBtn.onclick = () => {
+          urlInput.value = url;
+          generateQRCode();
+        };
+
+        item.appendChild(linkSpan);
+        item.appendChild(useBtn);
+        historyContainer.appendChild(item);
+      });
+    }
+
+    /**
+     * Download the QR Code image as PNG
+     */
+    function downloadQRCode() {
+      // Find canvas or image inside #qrcode
+      const canvas = qrContainer.querySelector('canvas');
+      const img = qrContainer.querySelector('img');
+
+      let downloadUrl = null;
+
+      if (canvas) {
+        downloadUrl = canvas.toDataURL('image/png');
+      } else if (img && img.src) {
+        downloadUrl = img.src;
+      }
+
+      if (!downloadUrl) {
+        showToast('Please generate a QR code first.', true);
+        return;
+      }
+
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      const domainName = (urlInput.value.replace(/https?:\/\//i, '').split('/')[0] || 'qrcode').replace(/[^a-zA-Z0-9_-]/g, '_');
+      a.download = `qr_${domainName}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast('QR Code downloaded as PNG!');
+    }
+
+    /**
+     * Copy the current URL to clipboard
+     */
+    function copyUrlToClipboard() {
+      const url = urlInput.value.trim();
+      if (!url) {
+        showToast('No URL to copy', true);
+        return;
+      }
+
+      // Safe fallback using temporary textarea
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = url;
+      tempTextArea.style.position = 'fixed';
+      tempTextArea.style.opacity = '0';
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      try {
+        document.execCommand('copy');
+        showToast('URL copied to clipboard!');
+      } catch (err) {
+        showToast('Failed to copy', true);
+      }
+      document.body.removeChild(tempTextArea);
+    }
+
+    // Color Pickers sync
+    fgColorInput.addEventListener('input', (e) => {
+      fgColorHex.textContent = e.target.value;
+      generateQRCode();
+    });
+
+    bgColorInput.addEventListener('input', (e) => {
+      bgColorHex.textContent = e.target.value;
+      generateQRCode();
+    });
+
+    // Dropdowns change
+    qrSizeSelect.addEventListener('change', generateQRCode);
+    qrEccSelect.addEventListener('change', generateQRCode);
+
+    // Initials badge controls
+    initialsEnable.addEventListener('change', () => {
+      initialsOptions.style.opacity = initialsEnable.checked ? '1' : '0.4';
+      initialsOptions.style.pointerEvents = initialsEnable.checked ? 'auto' : 'none';
+      generateQRCode();
+    });
+
+    initialsTextInput.addEventListener('input', (e) => {
+      // Keep uppercase in real time
+      e.target.value = e.target.value.toUpperCase();
+      generateQRCode();
+    });
+
+    badgeShapeSelect.addEventListener('change', generateQRCode);
+    badgeScaleSelect.addEventListener('change', generateQRCode);
+
+    badgeBgColorInput.addEventListener('input', (e) => {
+      badgeBgHex.textContent = e.target.value;
+      generateQRCode();
+    });
+
+    badgeTxtColorInput.addEventListener('input', (e) => {
+      badgeTxtHex.textContent = e.target.value;
+      generateQRCode();
+    });
+
+    // Generate Button Click
+    generateBtn.addEventListener('click', generateQRCode);
+
+    // Enter Key on input
+    urlInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        generateQRCode();
+      }
+    });
+
+    // Sample Pill Clicks
+    document.querySelectorAll('.preset-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        urlInput.value = pill.getAttribute('data-url');
+        generateQRCode();
+      });
+    });
+
+    // Paste Button
+    pasteBtn.addEventListener('click', async () => {
+      try {
+        if (navigator.clipboard && navigator.clipboard.readText) {
+          const text = await navigator.clipboard.readText();
+          if (text) {
+            urlInput.value = text;
+            generateQRCode();
+            showToast('Pasted from clipboard!');
+          }
+        } else {
+          urlInput.focus();
+          showToast('Press Ctrl+V / Cmd+V to paste');
+        }
+      } catch (e) {
+        urlInput.focus();
+        showToast('Press Ctrl+V / Cmd+V to paste');
+      }
+    });
+
+    // Download Button
+    downloadBtn.addEventListener('click', downloadQRCode);
+
+    // Copy Link Button
+    copyLinkBtn.addEventListener('click', copyUrlToClipboard);
+
+    // Clear History Button
+    clearHistoryBtn.addEventListener('click', () => {
+      historyList.length = 0;
+      renderHistory();
+      showToast('History cleared');
+    });
+
+    // Initial default render on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      generateQRCode();
+    });
+  </script>
+</body>
+</html>
