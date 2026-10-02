@@ -1,1 +1,1213 @@
-Hiya
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dr. Alex Morgan | Open Educational Resources & Open Pedagogy</title>
+  <meta name="description" content="Personal portfolio and repository of free, openly licensed textbooks, interactive labs, and curricula dedicated to democratizing global education.">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              900: '#14532d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Focus styles for keyboard accessibility */
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid #16a34a;
+      outline-offset: 2px;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-100 selection:text-emerald-900">
+
+  <!-- Accessible Skip Link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-emerald-700 text-white rounded-lg shadow-lg font-medium">
+    Skip to main content
+  </a>
+
+  <!-- Navigation Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo / Name -->
+        <a href="#home" class="flex items-center gap-3 group" aria-label="Alex Morgan Home">
+          <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shadow-sm group-hover:bg-emerald-700 transition-colors">
+            OM
+          </div>
+          <div>
+            <span class="block font-bold text-slate-900 leading-tight group-hover:text-emerald-700 transition-colors">Alex Morgan</span>
+            <span class="block text-xs font-medium text-slate-500">OER Creator &amp; Educator</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center space-x-1" aria-label="Main Navigation">
+          <a href="#about" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-emerald-700 rounded-lg hover:bg-slate-100 transition-colors">About</a>
+          <a href="#resources" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-emerald-700 rounded-lg hover:bg-slate-100 transition-colors">OER Catalog</a>
+          <a href="#framework" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-emerald-700 rounded-lg hover:bg-slate-100 transition-colors">The 5 Rs</a>
+          <a href="#toolkit" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-emerald-700 rounded-lg hover:bg-slate-100 transition-colors">Methodology</a>
+          <a href="#contact" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-emerald-700 rounded-lg hover:bg-slate-100 transition-colors">Collaborate</a>
+        </nav>
+
+        <!-- CTA & Mobile Toggle -->
+        <div class="flex items-center gap-2">
+          <a href="#resources" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-all hover:shadow">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            Browse Free Materials
+          </a>
+          <button id="mobileMenuButton" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle Navigation Menu" class="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:ring-2 focus:ring-emerald-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-4 space-y-1">
+      <a href="#about" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">About</a>
+      <a href="#resources" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">OER Catalog</a>
+      <a href="#framework" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">The 5 Rs of Openness</a>
+      <a href="#toolkit" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">Methodology &amp; Tooling</a>
+      <a href="#contact" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">Collaborate</a>
+    </div>
+  </header>
+
+  <main id="main-content" class="flex-grow">
+    <!-- Hero Section -->
+    <section id="home" class="relative overflow-hidden bg-gradient-to-b from-emerald-50/50 via-white to-slate-50 pt-16 pb-20 border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
+          
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-800 text-xs font-semibold uppercase tracking-wider">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+              Free to Adopt &bull; Free to Remix &bull; CC BY 4.0
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Knowledge belongs to everyone. <span class="text-emerald-600 underline decoration-emerald-300 decoration-wavy decoration-2">Freely.</span>
+            </h1>
+
+            <p class="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-2xl" id="heroBioText">
+              <!-- Dynamically populated from config -->
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <a href="#resources" class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow transition-all hover:translate-y-[-1px]">
+                Explore OER Catalog
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </a>
+              <a href="#framework" class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 font-semibold rounded-xl shadow-sm transition-colors">
+                Why Open Education?
+              </a>
+            </div>
+
+            <!-- Stats Bar -->
+            <div id="statsContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-200">
+              <!-- Dynamically populated from config -->
+            </div>
+          </div>
+
+          <!-- Hero Graphic / Manifesto Card -->
+          <div class="lg:col-span-5">
+            <div class="relative rounded-2xl bg-white border border-slate-200 p-6 sm:p-8 shadow-xl">
+              <div class="absolute -top-3 -right-3 bg-amber-400 text-amber-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+                Zero Textbook Cost
+              </div>
+              <div class="flex items-center gap-4 mb-6">
+                <div class="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-2xl shadow-inner">
+                  OER
+                </div>
+                <div>
+                  <h2 class="text-lg font-bold text-slate-900">The Open Pledge</h2>
+                  <p class="text-xs text-slate-500">Accessible &bull; Editable &bull; Zero Paywalls</p>
+                </div>
+              </div>
+              
+              <ul class="space-y-3 text-sm text-slate-600 mb-6">
+                <li class="flex items-start gap-2.5">
+                  <span class="text-emerald-600 font-bold text-base">&check;</span>
+                  <span><strong>100% Free:</strong> No student is ever barred by a subscription, login wall, or textbook fee.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="text-emerald-600 font-bold text-base">&check;</span>
+                  <span><strong>Editable Source Files:</strong> Hosted on GitHub with Markdown &amp; Jupyter formats ready for local adaptation.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="text-emerald-600 font-bold text-base">&check;</span>
+                  <span><strong>Accessible First:</strong> Screen-reader tested, high contrast, clean semantic markup, and lightweight PDFs.</span>
+                </li>
+              </ul>
+
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-500 font-mono">
+                <div class="text-slate-400 mb-1">// License: Creative Commons Attribution 4.0</div>
+                <code>Permitted: Reuse, Remix, Translate, Print, Teach</code>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section id="resources" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Open Learning Repository</h2>
+        <p class="mt-4 text-base sm:text-lg text-slate-600">
+          Everything below is free to download, teach, adapt, and translate under open licenses. Use the filters to find modules for your classroom.
+        </p>
+      </div>
+
+      <!-- Search & Filter Controls -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm mb-8 space-y-4">
+        <div class="flex flex-col md:flex-row gap-4">
+          <!-- Live Search Bar -->
+          <div class="relative flex-grow">
+            <label for="searchInput" class="sr-only">Search open resources</label>
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <input type="text" id="searchInput" placeholder="Search by topic, keyword, title, or language..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+          </div>
+
+          <!-- Format Filter -->
+          <div class="w-full md:w-56">
+            <label for="formatSelect" class="sr-only">Filter by Material Format</label>
+            <select id="formatSelect" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors text-slate-700">
+              <option value="ALL">All Resource Formats</option>
+              <option value="Textbook">Open Textbooks</option>
+              <option value="Lab & Exercises">Interactive Labs</option>
+              <option value="Syllabus & Slides">Slide Decks &amp; Syllabi</option>
+              <option value="Problem Set">Problem Sets &amp; Banks</option>
+            </select>
+          </div>
+
+          <!-- Saved Filter Toggle -->
+          <button id="favoritesFilterBtn" type="button" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
+            <svg class="w-4 h-4 text-rose-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+            <span>Saved (<span id="savedCountBadge">0</span>)</span>
+          </button>
+        </div>
+
+        <!-- Subject Tags / Pills -->
+        <div class="flex items-center gap-2 overflow-x-auto pt-2 pb-1 custom-scrollbar" id="subjectFiltersContainer">
+          <!-- Dynamic subject buttons -->
+        </div>
+      </div>
+
+      <!-- Results Count and Reset Indicator -->
+      <div class="flex items-center justify-between text-xs text-slate-500 mb-6 px-1">
+        <p id="resultsCount">Showing all resources</p>
+        <button id="resetFiltersBtn" class="text-emerald-700 hover:underline font-medium hidden">Reset all filters</button>
+      </div>
+
+      <!-- Cards Grid -->
+      <div id="resourcesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered via JavaScript -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="noResultsState" class="hidden text-center py-16 bg-white border border-dashed border-slate-300 rounded-2xl p-8">
+        <div class="w-12 h-12 mx-auto rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="text-base font-bold text-slate-800">No open resources found</h3>
+        <p class="text-sm text-slate-500 mt-1 max-w-sm mx-auto">Try adjusting your keywords, subject filters, or clearing your search term.</p>
+        <button onclick="window.resetCatalogFilters()" class="mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold">Clear Filters</button>
+      </div>
+    </section>
+
+    <!-- 5 Rs of OER Framework -->
+    <section id="framework" class="py-16 bg-slate-100 border-y border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mb-12">
+          <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">The Philosophical Foundation</span>
+          <h2 class="text-3xl font-extrabold text-slate-900 mt-1">The 5 Rs of Open Educational Resources</h2>
+          <p class="mt-3 text-slate-600">
+            Open education is not just about making materials zero-dollar; it's about granting educators and students legal, perpetual pedagogical freedoms defined by David Wiley.
+          </p>
+        </div>
+
+        <div id="fiveRsContainer" class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <!-- Dynamically populated from config -->
+        </div>
+
+        <!-- Licensing Explainer Box -->
+        <div class="mt-10 bg-white p-6 rounded-2xl border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+          <div class="space-y-1">
+            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <span class="inline-block p-1 bg-emerald-100 rounded text-emerald-700 font-mono text-xs font-bold">CC BY 4.0</span>
+              Default Licensing Standard
+            </h3>
+            <p class="text-sm text-slate-600">
+              Unless otherwise specified, all original authored works here use Creative Commons Attribution 4.0 International. You can share and adapt for any purpose with simple attribution.
+            </p>
+          </div>
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" class="shrink-0 px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors">
+            Read License Deed
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Methodology & Open Toolkit -->
+    <section id="toolkit" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-12 gap-12 items-start">
+        <div class="lg:col-span-5 space-y-4">
+          <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">How I Build OER</span>
+          <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Open Source Workflows for Open Textbooks</h2>
+          <p class="text-slate-600 text-base leading-relaxed">
+            Proprietary publishing systems lock content inside gated content-management silos. I build educational resources using modern, text-based, version-controlled developer tooling.
+          </p>
+          <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+            <h4 class="font-bold text-emerald-900 text-sm mb-1">Collaborative Remixer Friendly</h4>
+            <p class="text-xs text-emerald-800 leading-normal">
+              Any teacher can submit a typo fix, translate a chapter, or fork an entire semester of assignments with standard Git Pull Requests.
+            </p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 grid sm:grid-cols-2 gap-4">
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 font-bold mb-3 font-mono text-sm">MD</div>
+            <h4 class="font-bold text-slate-900 text-base">Markdown &amp; Quarto</h4>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Plain text files that compile into beautiful responsive web books, ePubs, accessible PDFs, and slides seamlessly.</p>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 font-bold mb-3 font-mono text-sm">GIT</div>
+            <h4 class="font-bold text-slate-900 text-base">Public Git Repositories</h4>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Transparent commit history, peer review through PRs, and community-driven curriculum maintenance.</p>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 font-bold mb-3 font-mono text-sm">H5P</div>
+            <h4 class="font-bold text-slate-900 text-base">Interactive Formative Quizzes</h4>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Self-hosted interactive practice widgets that students run directly inside their browsers without data tracking.</p>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 font-bold mb-3 font-mono text-sm">A11y</div>
+            <h4 class="font-bold text-slate-900 text-base">WCAG 2.1 AA Compliance</h4>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Alt-text for all diagrams, high-contrast mathematical notation via MathJax, and dyslexia-friendly typography.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community Adoption / Testimonials -->
+    <section class="py-16 bg-white border-t border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Adopted in Classrooms Worldwide</h2>
+          <p class="text-slate-500 text-sm mt-2">What professors, high school teachers, and self-directed learners say.</p>
+        </div>
+        <div id="testimonialsContainer" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Populated from config -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Collaboration Section -->
+    <section id="contact" class="py-16 sm:py-20 bg-slate-50 border-t border-slate-200">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+          <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Get in Touch</span>
+          <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Want to Adopt, Remix, or Co-author?</h2>
+          <p class="text-slate-600 text-sm sm:text-base mt-2">
+            I offer free consultations to educational institutions looking to transition courses to Zero Textbook Cost (ZTC).
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 sm:p-10 border border-slate-200 shadow-sm">
+          <!-- Client-side handled form with no server transfer -->
+          <form id="contactForm" class="space-y-4" novalidate>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label for="contactName" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Your Name *</label>
+                <input type="text" id="contactName" required placeholder="Professor Jane Doe" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+              </div>
+              <div>
+                <label for="contactEmail" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Your Email *</label>
+                <input type="email" id="contactEmail" required placeholder="jane@university.edu" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+              </div>
+            </div>
+
+            <div>
+              <label for="contactSubject" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Inquiry Purpose</label>
+              <select id="contactSubject" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-slate-700">
+                <option value="adopting">Adopting an OER for my class</option>
+                <option value="remixing">Translating or Remixing a Resource</option>
+                <option value="keynote">Speaking / Workshop on OER Creation</option>
+                <option value="correction">Reporting an Erratum or Improvement</option>
+                <option value="hello">Just Saying Thank You</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="contactMessage" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Your Message *</label>
+              <textarea id="contactMessage" rows="4" required placeholder="Tell me about your course, your students, or your adaptation idea..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"></textarea>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <p class="text-xs text-slate-400">All submissions processed safely in-browser.</p>
+              <button type="submit" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl text-sm shadow transition-colors">
+                Send Message
+              </button>
+            </div>
+          </form>
+
+          <!-- Success Alert Message (In-Page, Accessible) -->
+          <div id="formSuccessMessage" class="hidden mt-6 p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900" role="status" aria-live="polite">
+            <div class="flex items-center gap-3">
+              <span class="text-emerald-700 font-bold text-lg">&check;</span>
+              <div>
+                <h4 class="font-bold text-sm">Message Prepared Successfully!</h4>
+                <p class="text-xs mt-0.5">Thank you for advancing open education! A draft email has been prepared or you can reach out directly via the email listed below.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Direct Contact Pills -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-slate-600">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+            <span id="contactDirectEmail" class="font-medium">alex.morgan@open-edu-project.org</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span id="contactLocation">Portland, OR &bull; Remote Friendly</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="space-y-1">
+        <p class="text-sm font-semibold text-slate-900" id="footerCopyright">Alex Morgan &bull; Open Educational Resources</p>
+        <p class="text-xs text-slate-500">
+          Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/" class="text-emerald-700 underline" target="_blank" rel="noopener">Creative Commons Attribution 4.0 International</a>.
+        </p>
+      </div>
+      <div class="flex items-center gap-4 text-xs text-slate-500">
+        <a href="#home" class="hover:text-emerald-700 transition-colors">Back to Top &uarr;</a>
+        <span>&bull;</span>
+        <a href="#resources" class="hover:text-emerald-700 transition-colors">Full OER Library</a>
+        <span>&bull;</span>
+        <button onclick="window.clearSavedFavorites()" class="hover:text-rose-600 transition-colors">Reset Local Bookmarks</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal: Citation Generator Dialog -->
+  <div id="citationModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="citationModalTitle">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+        <h3 id="citationModalTitle" class="text-lg font-bold text-slate-900">Cite this Open Resource</h3>
+        <button id="closeCitationModalBtn" class="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100" aria-label="Close dialog">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="mt-4 space-y-4">
+        <p class="text-xs text-slate-500">
+          Giving proper credit empowers open creators and validates OER in higher education tenure &amp; promotion.
+        </p>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold uppercase text-slate-700">APA 7th Format</span>
+            <button id="copyApaBtn" class="text-xs font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              Copy APA
+            </button>
+          </div>
+          <div id="citationApaText" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 break-words select-all">
+            <!-- Citation APA -->
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold uppercase text-slate-700">BibTeX Format</span>
+            <button id="copyBibtexBtn" class="text-xs font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              Copy BibTeX
+            </button>
+          </div>
+          <pre id="citationBibtexText" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 overflow-x-auto select-all"><!-- Citation BibTeX --></pre>
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <button id="dismissCitationModalBtn" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-colors">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accessible Toast Notification for Actions -->
+  <div id="toastNotification" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white text-xs font-medium px-4 py-3 rounded-xl shadow-xl border border-slate-800 flex items-center gap-2" role="alert" aria-live="assertive">
+    <span class="text-emerald-400 font-bold">&check;</span>
+    <span id="toastMessage">Action completed</span>
+  </div>
+
+  <script>
+    /**
+     * =========================================================================
+     * SITE CONFIGURATION & EDITABLE DATA STORE
+     * All site content (profile, OER repository, 5Rs, statistics, testimonials)
+     * is defined here at the very top. Edit this object to update the entire site.
+     * =========================================================================
+     */
+    const SITE_CONFIG = {
+      profile: {
+        name: "Dr. Alex Morgan",
+        initials: "AM",
+        role: "Open Educator & Curriculum Architect",
+        bio: "I author, curate, and maintain zero-cost open educational resources that replace expensive proprietary college textbooks. Over 300,000 learners worldwide have accessed these open textbooks, Python labs, and interactive curriculum modules.",
+        location: "Portland, Oregon (Remote / Global)",
+        directEmail: "alex.morgan@open-edu-project.org",
+        stats: [
+          { label: "Learners Reached", value: "340K+", helper: "Worldwide downloads" },
+          { label: "Saved by Students", value: "$4.2M+", helper: "ZTC textbook savings" },
+          { label: "Open Textbooks", value: "12", helper: "Full semester curricula" },
+          { label: "Remixed In", value: "48+", helper: "Colleges & Universities" }
+        ]
+      },
+
+      // The 5 Rs of Openness
+      fiveRs: [
+        {
+          letter: "R1",
+          title: "Retain",
+          desc: "The right to make, own, and control your own copies of the content. No DRM, no expired access codes."
+        },
+        {
+          letter: "R2",
+          title: "Reuse",
+          desc: "The right to use the content in a wide range of ways (in class, on a website, in a video, or in print)."
+        },
+        {
+          letter: "R3",
+          title: "Revise",
+          desc: "The right to adapt, adjust, modify, or alter the content itself (e.g., translate it into another language)."
+        },
+        {
+          letter: "R4",
+          title: "Remix",
+          desc: "The right to combine the original or revised content with other material to create something brand new."
+        },
+        {
+          letter: "R5",
+          title: "Redistribute",
+          desc: "The right to share copies of the original content, your revisions, or your remixes with others freely."
+        }
+      ],
+
+      // OER Resource Repository
+      resources: [
+        {
+          id: "oer-cs101",
+          title: "Open Computational Thinking with Python",
+          subject: "Computer Science",
+          format: "Textbook",
+          license: "CC BY 4.0",
+          level: "Undergraduate / Introductory",
+          lastUpdated: "Fall 2026",
+          downloads: "142,500+",
+          description: "A comprehensive, zero-prerequisite textbook for introductory computer science. Features 180+ runnable Jupyter notebooks, auto-graded formative quizzes, and real-world civic data datasets.",
+          links: {
+            read: "#",
+            source: "https://github.com",
+            pdf: "#"
+          },
+          citationAPA: "Morgan, A. (2026). Open Computational Thinking with Python (3rd ed.). Open Education Press. https://doi.org/10.5555/oer.python.2026",
+          citationBibtex: `@book{morgan2026python,\n  title={Open Computational Thinking with Python},\n  author={Morgan, Alex},\n  year={2026},\n  publisher={Open Education Press},\n  url={https://github.com}\n}`
+        },
+        {
+          id: "oer-stats-lab",
+          title: "Applied Open Statistics: Data Science in Society",
+          subject: "Mathematics & Stats",
+          format: "Lab & Exercises",
+          license: "CC BY-SA 4.0",
+          level: "Intermediate Undergraduate",
+          lastUpdated: "Spring 2026",
+          downloads: "88,200+",
+          description: "Hands-on data analysis modules examining public health, environmental justice, and economics using R, tidyverse, and reproducible R Markdown workbooks.",
+          links: {
+            read: "#",
+            source: "https://github.com",
+            pdf: "#"
+          },
+          citationAPA: "Morgan, A. (2026). Applied Open Statistics: Data Science in Society. Community Open Press. https://doi.org/10.5555/oer.stats.2026",
+          citationBibtex: `@book{morgan2026stats,\n  title={Applied Open Statistics: Data Science in Society},\n  author={Morgan, Alex},\n  year={2026},\n  publisher={Community Open Press}\n}`
+        },
+        {
+          id: "oer-digilit",
+          title: "Algorithmic Literacy & Open Web Architecture",
+          subject: "Digital Humanities",
+          format: "Textbook",
+          license: "CC BY 4.0",
+          level: "General Education",
+          lastUpdated: "Summer 2026",
+          downloads: "64,000+",
+          description: "An open textbook investigating how algorithms, search engines, and artificial intelligence reshape democracy, privacy, and public discourse.",
+          links: {
+            read: "#",
+            source: "https://github.com",
+            pdf: "#"
+          },
+          citationAPA: "Morgan, A. (2026). Algorithmic Literacy & Open Web Architecture. Free Faculty Network. https://doi.org/10.5555/oer.algolit.2026",
+          citationBibtex: `@book{morgan2026algo,\n  title={Algorithmic Literacy and Open Web Architecture},\n  author={Morgan, Alex},\n  year={2026},\n  publisher={Free Faculty Network}\n}`
+        },
+        {
+          id: "oer-pedagogy-pack",
+          title: "Open Pedagogy Assignment Bank & Syllabus Kit",
+          subject: "Educator Guides",
+          format: "Syllabus & Slides",
+          license: "CC BY 4.0",
+          level: "Higher Ed Faculty",
+          lastUpdated: "Winter 2025",
+          downloads: "35,100+",
+          description: "A ready-to-adopt course syllabus, rubric package, and 25 renewable student assignments where students contribute to public Wikipedia and OpenStreetMap instead of throwaway term papers.",
+          links: {
+            read: "#",
+            source: "https://github.com",
+            pdf: "#"
+          },
+          citationAPA: "Morgan, A. (2025). Open Pedagogy Assignment Bank & Syllabus Kit. OER Collective. https://doi.org/10.5555/oer.kit.2025",
+          citationBibtex: `@misc{morgan2025kit,\n  title={Open Pedagogy Assignment Bank and Syllabus Kit},\n  author={Morgan, Alex},\n  year={2025},\n  publisher={OER Collective}\n}`
+        },
+        {
+          id: "oer-webdev-bootcamp",
+          title: "Accessible Web Development & Vanilla JavaScript",
+          subject: "Computer Science",
+          format: "Lab & Exercises",
+          license: "CC BY 4.0",
+          level: "Beginner to Intermediate",
+          lastUpdated: "Fall 2026",
+          downloads: "51,400+",
+          description: "Modern, framework-free web development curriculum emphasizing semantic HTML5, accessible ARIA patterns, and standard DOM programming with 30 guided projects.",
+          links: {
+            read: "#",
+            source: "https://github.com",
+            pdf: "#"
+          },
+          citationAPA: "Morgan, A. (2026). Accessible Web Development & Vanilla JavaScript. Open Tech Press. https://doi.org/10.5555/oer.webdev.2026",
+          citationBibtex: `@book{morgan2026webdev,\n  title={Accessible Web Development & Vanilla JavaScript},\n  author={Morgan, Alex},\n  year={2026},\n  publisher={Open Tech Press}\n}`
+        },
+        {
+          id: "oer-calculus-problems",
+          title: "Open Multivariable Calculus Problem Matrix",
+          subject: "Mathematics & Stats",
+          format: "Problem Set",
+          license: "Public Domain / CC0",
+          level: "Undergraduate STEM",
+          lastUpdated: "Spring 2025",
+          downloads: "29,800+",
+          description: "Over 600 fully worked mathematical solutions, 3D vector visualizers rendered in Three.js, and LaTeX source files ready to drop directly into Canvas or Moodle.",
+          links: {
+            read: "#",
+            source: "https://github.com",
+            pdf: "#"
+          },
+          citationAPA: "Morgan, A. (2025). Open Multivariable Calculus Problem Matrix. CC0 Public Domain. https://doi.org/10.5555/oer.calc.2025",
+          citationBibtex: `@misc{morgan2025calc,\n  title={Open Multivariable Calculus Problem Matrix},\n  author={Morgan, Alex},\n  year={2025},\n  publisher={CC0 Open Access}\n}`
+        }
+      ],
+
+      // Testimonials & Community Endorsements
+      testimonials: [
+        {
+          quote: "Adopting Dr. Morgan's open Python curriculum immediately eliminated a $195 textbook cost for our 600 annual students without losing a single ounce of academic rigor.",
+          author: "Prof. Elena Rostova",
+          institution: "Midwestern Community College",
+          role: "Department Chair of CS"
+        },
+        {
+          quote: "The ability to legally translate the chapters and modify the coding examples to reflect local community datasets has completely revolutionized student engagement.",
+          author: "Dr. Marcus Chen",
+          institution: "University of Washington",
+          role: "Associate Professor of Informatics"
+        },
+        {
+          quote: "I was working two jobs to afford tuition. Knowing my class had zero textbook cost let me buy food and continue my degree without debt.",
+          author: "Jordan Vance",
+          institution: "First-generation College Graduate",
+          role: "Alumni & Software Engineer"
+        }
+      ]
+    };
+
+    // In-browser state (stored in memory and synced to localStorage)
+    const state = {
+      searchQuery: "",
+      selectedSubject: "ALL",
+      selectedFormat: "ALL",
+      onlyFavorites: false,
+      savedIds: new Set()
+    };
+
+    // Load saved bookmarks from localStorage
+    function loadSavedFavorites() {
+      try {
+        const stored = localStorage.getItem("oer_user_favorites");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed)) {
+            state.savedIds = new Set(parsed);
+          }
+        }
+      } catch (err) {
+        console.error("Local storage not accessible", err);
+      }
+      updateSavedBadge();
+    }
+
+    // Persist saved bookmarks to localStorage
+    function saveFavoritesToStorage() {
+      try {
+        localStorage.setItem("oer_user_favorites", JSON.stringify(Array.from(state.savedIds)));
+      } catch (err) {
+        console.error("Failed to save favorites to localStorage", err);
+      }
+      updateSavedBadge();
+    }
+
+    function toggleFavorite(id) {
+      if (state.savedIds.has(id)) {
+        state.savedIds.delete(id);
+        showToast("Removed resource from saved items");
+      } else {
+        state.savedIds.add(id);
+        showToast("Resource bookmarked for quick offline reference");
+      }
+      saveFavoritesToStorage();
+      renderResources();
+    }
+
+    function updateSavedBadge() {
+      const badge = document.getElementById("savedCountBadge");
+      if (badge) {
+        badge.textContent = state.savedIds.size;
+      }
+    }
+
+    window.clearSavedFavorites = function() {
+      state.savedIds.clear();
+      saveFavoritesToStorage();
+      renderResources();
+      showToast("All saved bookmarks have been reset");
+    };
+
+    // Populate Hero and Profile details
+    function renderProfile() {
+      const heroBio = document.getElementById("heroBioText");
+      if (heroBio) heroBio.textContent = SITE_CONFIG.profile.bio;
+
+      const directEmail = document.getElementById("contactDirectEmail");
+      if (directEmail) directEmail.textContent = SITE_CONFIG.profile.directEmail;
+
+      const locationEl = document.getElementById("contactLocation");
+      if (locationEl) locationEl.textContent = SITE_CONFIG.profile.location;
+
+      const copyright = document.getElementById("footerCopyright");
+      if (copyright) {
+        copyright.innerHTML = `${SITE_CONFIG.profile.name} &bull; ${SITE_CONFIG.profile.role}`;
+      }
+
+      // Render Hero Stats
+      const statsContainer = document.getElementById("statsContainer");
+      if (statsContainer) {
+        statsContainer.innerHTML = SITE_CONFIG.profile.stats.map(s => `
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-center shadow-xs">
+            <span class="block text-xl sm:text-2xl font-extrabold text-emerald-700">${escapeHtml(s.value)}</span>
+            <span class="block text-xs font-bold text-slate-800 uppercase tracking-wider mt-0.5">${escapeHtml(s.label)}</span>
+            <span class="block text-[11px] text-slate-400 mt-0.5">${escapeHtml(s.helper)}</span>
+          </div>
+        `).join("");
+      }
+    }
+
+    // Render 5 Rs Cards
+    function render5Rs() {
+      const container = document.getElementById("fiveRsContainer");
+      if (!container) return;
+
+      container.innerHTML = SITE_CONFIG.fiveRs.map(item => `
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:border-emerald-300 transition-all hover:shadow-md flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 font-mono font-bold text-xs mb-3">
+              ${escapeHtml(item.letter)}
+            </div>
+            <h3 class="font-extrabold text-slate-900 text-lg">${escapeHtml(item.title)}</h3>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed">${escapeHtml(item.desc)}</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-emerald-700 flex items-center gap-1">
+            <span>Free Perpetual Right</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // Render Subject Pill Filter Buttons
+    function renderSubjectFilters() {
+      const container = document.getElementById("subjectFiltersContainer");
+      if (!container) return;
+
+      const subjects = ["ALL", ...new Set(SITE_CONFIG.resources.map(r => r.subject))];
+
+      container.innerHTML = subjects.map(subj => {
+        const isSelected = state.selectedSubject === subj;
+        const label = subj === "ALL" ? "All Subjects" : subj;
+        const activeClasses = isSelected
+          ? "bg-emerald-600 text-white border-emerald-600 font-semibold"
+          : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200";
+
+        return `
+          <button type="button" 
+                  data-subject="${escapeHtml(subj)}"
+                  class="subject-filter-btn px-3 py-1.5 rounded-full text-xs border transition-colors whitespace-nowrap ${activeClasses}">
+            ${escapeHtml(label)}
+          </button>
+        `;
+      }).join("");
+
+      // Bind click events
+      container.querySelectorAll(".subject-filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.selectedSubject = btn.getAttribute("data-subject");
+          renderSubjectFilters();
+          renderResources();
+        });
+      });
+    }
+
+    // Render OER Cards Grid with Accessibility Attributes
+    function renderResources() {
+      const grid = document.getElementById("resourcesGrid");
+      const emptyState = document.getElementById("noResultsState");
+      const countEl = document.getElementById("resultsCount");
+      const resetBtn = document.getElementById("resetFiltersBtn");
+
+      if (!grid) return;
+
+      // Filter logic
+      const filtered = SITE_CONFIG.resources.filter(item => {
+        // Search matching
+        const q = state.searchQuery.toLowerCase().trim();
+        const matchesQuery = !q || 
+          item.title.toLowerCase().includes(q) ||
+          item.subject.toLowerCase().includes(q) ||
+          item.description.toLowerCase().includes(q) ||
+          item.level.toLowerCase().includes(q);
+
+        // Subject matching
+        const matchesSubject = (state.selectedSubject === "ALL") || (item.subject === state.selectedSubject);
+
+        // Format matching
+        const matchesFormat = (state.selectedFormat === "ALL") || (item.format === state.selectedFormat);
+
+        // Favorites matching
+        const matchesFavorite = !state.onlyFavorites || state.savedIds.has(item.id);
+
+        return matchesQuery && matchesSubject && matchesFormat && matchesFavorite;
+      });
+
+      // Update count text
+      if (countEl) {
+        const total = SITE_CONFIG.resources.length;
+        countEl.textContent = `Showing ${filtered.length} of ${total} open educational resources`;
+      }
+
+      // Toggle Reset Button Visibility
+      const isFiltered = state.searchQuery || state.selectedSubject !== "ALL" || state.selectedFormat !== "ALL" || state.onlyFavorites;
+      if (resetBtn) {
+        resetBtn.classList.toggle("hidden", !isFiltered);
+      }
+
+      // Empty State Handling
+      if (filtered.length === 0) {
+        grid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      } else {
+        emptyState.classList.add("hidden");
+      }
+
+      // Generate Card HTML
+      grid.innerHTML = filtered.map(item => {
+        const isSaved = state.savedIds.has(item.id);
+
+        return `
+          <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+            <div class="p-6">
+              <!-- Top Badges & Favorite -->
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                  ${escapeHtml(item.format)}
+                </span>
+                
+                <div class="flex items-center gap-1">
+                  <span class="text-[11px] font-mono font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                    ${escapeHtml(item.license)}
+                  </span>
+                  <button type="button" 
+                          onclick="window.toggleResourceSave('${escapeHtml(item.id)}')"
+                          class="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-slate-50 transition-colors"
+                          aria-label="${isSaved ? 'Remove bookmark' : 'Bookmark this resource'}"
+                          title="${isSaved ? 'Bookmarked' : 'Save for later'}">
+                    <svg class="w-4 h-4 ${isSaved ? 'text-rose-500 fill-rose-500' : 'fill-none'}" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Title & Subject -->
+              <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition-colors leading-snug">
+                ${escapeHtml(item.title)}
+              </h3>
+              
+              <div class="flex items-center gap-2 mt-1 text-xs text-slate-500">
+                <span class="font-medium text-slate-700">${escapeHtml(item.subject)}</span>
+                <span>&bull;</span>
+                <span>${escapeHtml(item.level)}</span>
+              </div>
+
+              <!-- Description -->
+              <p class="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                ${escapeHtml(item.description)}
+              </p>
+
+              <!-- Metrics -->
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+                <span>Updated: ${escapeHtml(item.lastUpdated)}</span>
+                <span class="text-emerald-700 font-bold">${escapeHtml(item.downloads)} downloads</span>
+              </div>
+            </div>
+
+            <!-- Card Actions Footer -->
+            <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-2">
+              <button type="button" 
+                      onclick="window.openCitationModal('${escapeHtml(item.id)}')"
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:text-emerald-700 hover:bg-white rounded-lg border border-transparent hover:border-slate-200 transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+                Cite Work
+              </button>
+
+              <div class="flex items-center gap-1.5">
+                <a href="${escapeHtml(item.links.source)}" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors"
+                   title="View editable source files on GitHub">
+                  <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                  Source
+                </a>
+                <button type="button" 
+                        onclick="window.showToast('Preparing offline PDF package...')"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-xs transition-colors">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                  Get
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    // Render Testimonials
+    function renderTestimonials() {
+      const container = document.getElementById("testimonialsContainer");
+      if (!container) return;
+
+      container.innerHTML = SITE_CONFIG.testimonials.map(t => `
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+          <p class="text-sm text-slate-700 italic leading-relaxed">&ldquo;${escapeHtml(t.quote)}&rdquo;</p>
+          <div class="mt-4 pt-3 border-t border-slate-200/80">
+            <h4 class="font-bold text-slate-900 text-sm">${escapeHtml(t.author)}</h4>
+            <p class="text-xs text-slate-500">${escapeHtml(t.role)} &bull; ${escapeHtml(t.institution)}</p>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    let currentModalResource = null;
+
+    window.openCitationModal = function(id) {
+      const res = SITE_CONFIG.resources.find(r => r.id === id);
+      if (!res) return;
+
+      currentModalResource = res;
+      const modal = document.getElementById("citationModal");
+      const title = document.getElementById("citationModalTitle");
+      const apaBox = document.getElementById("citationApaText");
+      const bibtexBox = document.getElementById("citationBibtexText");
+
+      title.textContent = `Cite: ${res.title}`;
+      apaBox.textContent = res.citationAPA;
+      bibtexBox.textContent = res.citationBibtex;
+
+      modal.classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+
+      // Trap focus
+      document.getElementById("closeCitationModalBtn").focus();
+    };
+
+    function closeCitationModal() {
+      const modal = document.getElementById("citationModal");
+      modal.classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    // Fallback-safe clipboard copy using execCommand as mandated by iframe specs
+    function copyTextToClipboard(text, successMessage) {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "absolute";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        const successful = document.execCommand("copy");
+        if (successful) {
+          showToast(successMessage);
+        } else {
+          showToast("Please copy manually from the box.");
+        }
+      } catch (err) {
+        showToast("Please copy manually from the box.");
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // Accessible Toast Notification System
+    let toastTimeout = null;
+    function showToast(message) {
+      const toast = document.getElementById("toastNotification");
+      const msgEl = document.getElementById("toastMessage");
+      if (!toast || !msgEl) return;
+
+      msgEl.textContent = message;
+      toast.classList.remove("hidden");
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add("hidden");
+      }, 3500);
+    }
+
+    window.showToast = showToast;
+    window.toggleResourceSave = toggleFavorite;
+
+    window.resetCatalogFilters = function() {
+      state.searchQuery = "";
+      state.selectedSubject = "ALL";
+      state.selectedFormat = "ALL";
+      state.onlyFavorites = false;
+
+      const searchInput = document.getElementById("searchInput");
+      const formatSelect = document.getElementById("formatSelect");
+      const favBtn = document.getElementById("favoritesFilterBtn");
+
+      if (searchInput) searchInput.value = "";
+      if (formatSelect) formatSelect.value = "ALL";
+      if (favBtn) {
+        favBtn.classList.remove("bg-rose-50", "border-rose-300", "text-rose-700");
+      }
+
+      renderSubjectFilters();
+      renderResources();
+    };
+
+    function setupEventListeners() {
+      // Live search with input handler
+      const searchInput = document.getElementById("searchInput");
+      if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+          state.searchQuery = e.target.value;
+          renderResources();
+        });
+      }
+
+      // Format select filter
+      const formatSelect = document.getElementById("formatSelect");
+      if (formatSelect) {
+        formatSelect.addEventListener("change", (e) => {
+          state.selectedFormat = e.target.value;
+          renderResources();
+        });
+      }
+
+      // Toggle Favorites filter button
+      const favFilterBtn = document.getElementById("favoritesFilterBtn");
+      if (favFilterBtn) {
+        favFilterBtn.addEventListener("click", () => {
+          state.onlyFavorites = !state.onlyFavorites;
+          favFilterBtn.classList.toggle("bg-rose-50", state.onlyFavorites);
+          favFilterBtn.classList.toggle("border-rose-300", state.onlyFavorites);
+          favFilterBtn.classList.toggle("text-rose-700", state.onlyFavorites);
+          renderResources();
+        });
+      }
+
+      // Reset button
+      const resetBtn = document.getElementById("resetFiltersBtn");
+      if (resetBtn) {
+        resetBtn.addEventListener("click", window.resetCatalogFilters);
+      }
+
+      // Mobile Menu Toggle
+      const mobileBtn = document.getElementById("mobileMenuButton");
+      const mobileMenu = document.getElementById("mobileMenu");
+      if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener("click", () => {
+          const isOpen = !mobileMenu.classList.contains("hidden");
+          mobileMenu.classList.toggle("hidden", isOpen);
+          mobileBtn.setAttribute("aria-expanded", String(!isOpen));
+        });
+
+        // Close menu on link click
+        mobileMenu.querySelectorAll("a").forEach(a => {
+          a.addEventListener("click", () => {
+            mobileMenu.classList.add("hidden");
+            mobileBtn.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+
+      // Citation Modal Events
+      const closeCitationBtn = document.getElementById("closeCitationModalBtn");
+      const dismissCitationBtn = document.getElementById("dismissCitationModalBtn");
+      const citationModal = document.getElementById("citationModal");
+
+      if (closeCitationBtn) closeCitationBtn.addEventListener("click", closeCitationModal);
+      if (dismissCitationBtn) dismissCitationBtn.addEventListener("click", closeCitationModal);
+
+      if (citationModal) {
+        citationModal.addEventListener("click", (e) => {
+          if (e.target === citationModal) closeCitationModal();
+        });
+      }
+
+      // Copy APA
+      const copyApa = document.getElementById("copyApaBtn");
+      if (copyApa) {
+        copyApa.addEventListener("click", () => {
+          if (currentModalResource) {
+            copyTextToClipboard(currentModalResource.citationAPA, "APA Citation copied to clipboard!");
+          }
+        });
+      }
+
+      // Copy Bibtex
+      const copyBib = document.getElementById("copyBibtexBtn");
+      if (copyBib) {
+        copyBib.addEventListener("click", () => {
+          if (currentModalResource) {
+            copyTextToClipboard(currentModalResource.citationBibtex, "BibTeX record copied to clipboard!");
+          }
+        });
+      }
+
+      // ESC key to close modal
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeCitationModal();
+        }
+      });
+
+      // Accessible Client-side Contact Form Handler (No server transfer)
+      const contactForm = document.getElementById("contactForm");
+      const successMsg = document.getElementById("formSuccessMessage");
+      if (contactForm) {
+        contactForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const name = document.getElementById("contactName").value.trim();
+          const email = document.getElementById("contactEmail").value.trim();
+          const message = document.getElementById("contactMessage").value.trim();
+
+          if (!name || !email || !message) {
+            showToast("Please fill out all required fields.");
+            return;
+          }
+
+          // Show success status without leaving page or leaking data
+          if (successMsg) {
+            successMsg.classList.remove("hidden");
+            contactForm.reset();
+            showToast("Thanks! Your collaboration request has been received.");
+          }
+        });
+      }
+    }
+
+    // Utility: XSS prevention helper
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Initialize everything on DOMContentLoaded
+    window.addEventListener("DOMContentLoaded", () => {
+      loadSavedFavorites();
+      renderProfile();
+      render5Rs();
+      renderSubjectFilters();
+      renderResources();
+      renderTestimonials();
+      setupEventListeners();
+    });
+  </script>
+</body>
+</html>
